@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { readStoredFile } from "@/lib/server-vault";
+import { readStoredFile } from "../../../../../lib/server-vault";
 
 export async function GET(
   _request: Request,

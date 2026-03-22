@@ -1,14 +1,20 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import LoadingScreen from "@/components/LoadingScreen";
-import HumanCheck from "@/components/HumanCheck";
-import KographWidget from "@/components/KographWidget";
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState
+} from "react";
+import LoadingScreen from "../components/LoadingScreen";
+import HumanCheck from "../components/HumanCheck";
+import KographWidget from "../components/KographWidget";
 import {
   decryptPayload,
   encryptFile,
   type EncryptedPayload
-} from "@/lib/crypto";
+} from "../lib/crypto";
 
 type VaultItem = {
   id: string;
