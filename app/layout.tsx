@@ -2,7 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Ember Vault",
+  title: "KOGRAPH.INT CLOUD",
   description: "Local encrypted vault with KOGRAPH.INT"
 };
 
