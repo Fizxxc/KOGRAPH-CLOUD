@@ -1,7 +1,7 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 import crypto from 'crypto';
-import type { VaultRecord } from '@/lib/types';
+import type { VaultRecord } from './types';
 
 const vaultDir = path.join(process.cwd(), 'data', 'vault');
 

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { readStoredFile, writeStoredFile } from "@/lib/server-vault";
+import { readStoredFile, writeStoredFile } from "../../../../lib/server-vault";
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);

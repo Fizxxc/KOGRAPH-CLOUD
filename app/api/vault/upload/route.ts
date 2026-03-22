@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { writeStoredFile } from "@/lib/server-vault";
+import { writeStoredFile } from "../../../../lib/server-vault";
 import crypto from "crypto";
 
 export async function POST(req: Request) {

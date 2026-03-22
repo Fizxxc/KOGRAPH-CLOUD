@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { listStoredFiles } from "@/lib/server-vault";
+import { listStoredFiles } from "../../../../lib/server-vault";
 
 export async function GET() {
   const files = await listStoredFiles();

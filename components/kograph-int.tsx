@@ -2,7 +2,7 @@
 
 import { AnimatePresence, motion } from 'framer-motion';
 import { useMemo, useRef, useState } from 'react';
-import { createKographReply, getKographIdentity } from '@/lib/kograph-chat';
+import { createKographReply, getKographIdentity } from '../lib/kograph-chat';
 
 type ChatMessage = { id: string; role: 'user' | 'bot'; text: string };
 

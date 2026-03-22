@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { deleteStoredFile } from "@/lib/server-vault";
+import { deleteStoredFile } from "../../../../lib/server-vault";
 
 export async function POST(req: Request) {
   try {

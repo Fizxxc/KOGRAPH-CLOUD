@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { saveVaultRecord } from '@/lib/storage';
+import { saveVaultRecord } from '../../../../lib/storage';
 
 export async function POST(req: Request) {
   try {

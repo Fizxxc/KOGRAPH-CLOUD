@@ -1,5 +1,5 @@
 import crypto from 'crypto';
-import type { VaultRecord } from '@/lib/types';
+import type { VaultRecord } from './types';
 
 function base64ToBuffer(value: string) {
   return Buffer.from(value, 'base64');

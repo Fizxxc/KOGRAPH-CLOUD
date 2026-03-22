@@ -1,4 +1,4 @@
-import brain from "@/lib/kograph-brain.json";
+import brain from "./kograph-brain.json";
 
 type Intent = {
   tag: string;
