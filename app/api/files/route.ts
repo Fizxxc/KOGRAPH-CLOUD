@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createVaultRecord, listVaultRecords } from '@/lib/vault-store';
-import { getClientIp, heartbeat, logSecurityEvent } from '@/lib/guard';
+import { createVaultRecord, listVaultRecords } from '../../../lib/vault-store';
+import { getClientIp, heartbeat, logSecurityEvent } from '../../../lib/guard';
 
 export async function GET() {
   await heartbeat();

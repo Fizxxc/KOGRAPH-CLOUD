@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { decryptVaultRecord } from '@/lib/crypto-server';
-import { deleteVaultRecord, readVaultRecord, writeVaultRecord } from '@/lib/storage';
+import { decryptVaultRecord } from '../../../../lib/crypto-server';
+import { deleteVaultRecord, readVaultRecord, writeVaultRecord } from '../../../../lib/storage';
 
 export async function POST(req: Request) {
   try {

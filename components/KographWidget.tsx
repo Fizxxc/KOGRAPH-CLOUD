@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { createKographReply, getKographIdentity } from "@/lib/kograph-chat";
+import { createKographReply, getKographIdentity } from "../lib/kograph-chat";
 
 export default function KographWidget() {
   const identity = getKographIdentity();

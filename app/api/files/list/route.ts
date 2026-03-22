@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { listVaultRecords } from '@/lib/storage';
+import { listVaultRecords } from '../../../../lib/storage';
 
 export async function GET() {
   try {
