@@ -1,0 +1,67 @@
+{"timestamp":"2026-03-22T13:31:18.948Z","level":"info","message":"Kograph.INT sentinel online - 24/7 watch active","meta":{"mode":"local-cmd","watchedPath":"D:\\Downloads\\ember-vault\\ember-vault\\data\\vault"}}
+{"timestamp":"2026-03-22T13:31:57.269Z","level":"critical","message":"Vault contents wiped after burn protocol","meta":{"deletedFiles":0}}
+{"timestamp":"2026-03-22T13:32:07.762Z","level":"critical","message":"Vault contents wiped after burn protocol","meta":{"deletedFiles":0}}
+{"timestamp":"2026-03-22T13:32:20.381Z","level":"info","message":"Kograph.INT sentinel online - 24/7 watch active","meta":{"mode":"local-cmd","watchedPath":"D:\\Downloads\\ember-vault\\ember-vault\\data\\vault"}}
+{"timestamp":"2026-03-22T13:32:36.905Z","level":"info","message":"Encrypted file stored in vault","meta":{"id":"a292b676-7f26-4d07-a98d-9f773366a7b5","size":44558,"source":"127.0.0.1"}}
+{"timestamp":"2026-03-22T13:33:16.374Z","level":"info","message":"Kograph.INT sentinel online - 24/7 watch active","meta":{"mode":"local-cmd","watchedPath":"D:\\Downloads\\ember-vault\\ember-vault\\data\\vault"}}
+{"timestamp":"2026-03-22T13:33:17.217Z","level":"info","message":"Decrypt session accepted","meta":{"source":"127.0.0.1","fileId":"a292b676-7f26-4d07-a98d-9f773366a7b5"}}
+{"timestamp":"2026-03-22T13:33:27.551Z","level":"info","message":"Encrypted file stored in vault","meta":{"id":"ba7d7a47-fc57-428f-a522-227d38fd6928","size":1446577,"source":"127.0.0.1"}}
+{"timestamp":"2026-03-22T13:33:46.865Z","level":"warn","message":"Suspicious repeated decrypt failures detected","meta":{"source":"127.0.0.1","failures":3}}
+{"timestamp":"2026-03-22T13:33:47.017Z","level":"warn","message":"Suspicious repeated decrypt failures detected","meta":{"source":"127.0.0.1","failures":4}}
+{"timestamp":"2026-03-22T13:33:48.526Z","level":"warn","message":"Suspicious repeated decrypt failures detected","meta":{"source":"127.0.0.1","failures":5}}
+{"timestamp":"2026-03-22T13:33:48.530Z","level":"critical","message":"Burn protocol threshold reached","meta":{"source":"127.0.0.1","failures":5,"action":"burn-armed"}}
+{"timestamp":"2026-03-22T13:33:52.181Z","level":"critical","message":"Vault contents wiped after burn protocol","meta":{"deletedFiles":2}}
+{"timestamp":"2026-03-22T13:35:06.698Z","level":"info","message":"Kograph.INT sentinel online - 24/7 watch active","meta":{"mode":"local-cmd","watchedPath":"D:\\Downloads\\ember-vault\\ember-vault\\data\\vault"}}
+{"timestamp":"2026-03-22T13:36:02.544Z","level":"info","message":"Kograph.INT sentinel online - 24/7 watch active","meta":{"mode":"local-cmd","watchedPath":"D:\\Downloads\\ember-vault\\ember-vault\\data\\vault"}}
+{"timestamp":"2026-03-22T13:37:51.544Z","level":"info","message":"Kograph.INT sentinel online - 24/7 watch active","meta":{"mode":"local-cmd","watchedPath":"D:\\Downloads\\ember-vault\\ember-vault\\data\\vault"}}
+{"timestamp":"2026-03-22T13:38:51.230Z","level":"info","message":"Kograph.INT sentinel online - 24/7 watch active","meta":{"mode":"local-cmd","watchedPath":"D:\\Downloads\\ember-vault\\ember-vault\\data\\vault"}}
+{"timestamp":"2026-03-22T13:39:51.555Z","level":"info","message":"Kograph.INT sentinel online - 24/7 watch active","meta":{"mode":"local-cmd","watchedPath":"D:\\Downloads\\ember-vault\\ember-vault\\data\\vault"}}
+{"timestamp":"2026-03-22T13:40:51.232Z","level":"info","message":"Kograph.INT sentinel online - 24/7 watch active","meta":{"mode":"local-cmd","watchedPath":"D:\\Downloads\\ember-vault\\ember-vault\\data\\vault"}}
+{"timestamp":"2026-03-22T13:41:51.540Z","level":"info","message":"Kograph.INT sentinel online - 24/7 watch active","meta":{"mode":"local-cmd","watchedPath":"D:\\Downloads\\ember-vault\\ember-vault\\data\\vault"}}
+{"timestamp":"2026-03-22T13:42:51.235Z","level":"info","message":"Kograph.INT sentinel online - 24/7 watch active","meta":{"mode":"local-cmd","watchedPath":"D:\\Downloads\\ember-vault\\ember-vault\\data\\vault"}}
+{"timestamp":"2026-03-22T13:43:51.552Z","level":"info","message":"Kograph.INT sentinel online - 24/7 watch active","meta":{"mode":"local-cmd","watchedPath":"D:\\Downloads\\ember-vault\\ember-vault\\data\\vault"}}
+{"timestamp":"2026-03-22T13:44:51.542Z","level":"info","message":"Kograph.INT sentinel online - 24/7 watch active","meta":{"mode":"local-cmd","watchedPath":"D:\\Downloads\\ember-vault\\ember-vault\\data\\vault"}}
+{"timestamp":"2026-03-22T13:45:45.726Z","level":"info","message":"Kograph.INT sentinel online - 24/7 watch active","meta":{"mode":"local-cmd","watchedPath":"D:\\Downloads\\ember-vault\\ember-vault\\data\\vault"}}
+{"timestamp":"2026-03-22T13:46:16.604Z","level":"info","message":"KOGRAPH.INT interaction registered","meta":{"source":"127.0.0.1","matchedTag":"key","suspicious":false,"excerpt":"key aku apa"}}
+{"timestamp":"2026-03-22T13:46:24.085Z","level":"info","message":"KOGRAPH.INT interaction registered","meta":{"source":"127.0.0.1","matchedTag":"status","suspicious":false,"excerpt":"Status kamu?"}}
+{"timestamp":"2026-03-22T13:46:25.516Z","level":"info","message":"KOGRAPH.INT interaction registered","meta":{"source":"127.0.0.1","matchedTag":"status","suspicious":false,"excerpt":"Status kamu?"}}
+{"timestamp":"2026-03-22T13:46:43.596Z","level":"info","message":"Kograph.INT sentinel online - 24/7 watch active","meta":{"mode":"local-cmd","watchedPath":"D:\\Downloads\\ember-vault\\ember-vault\\data\\vault"}}
+{"timestamp":"2026-03-22T13:46:45.394Z","level":"info","message":"KOGRAPH.INT interaction registered","meta":{"source":"127.0.0.1","matchedTag":"fallback","suspicious":false,"excerpt":"kamu dibuat oleh siapa"}}
+{"timestamp":"2026-03-22T13:46:55.594Z","level":"info","message":"KOGRAPH.INT interaction registered","meta":{"source":"127.0.0.1","matchedTag":"key","suspicious":false,"excerpt":"Apa yang terjadi jika key salah 5 kali?"}}
+{"timestamp":"2026-03-22T13:47:06.120Z","level":"info","message":"KOGRAPH.INT interaction registered","meta":{"source":"127.0.0.1","matchedTag":"fallback","suspicious":false,"excerpt":"kalau"}}
+{"timestamp":"2026-03-22T13:47:30.032Z","level":"info","message":"KOGRAPH.INT interaction registered","meta":{"source":"127.0.0.1","matchedTag":"fallback","suspicious":false,"excerpt":"y"}}
+{"timestamp":"2026-03-22T13:47:39.594Z","level":"info","message":"Kograph.INT sentinel online - 24/7 watch active","meta":{"mode":"local-cmd","watchedPath":"D:\\Downloads\\ember-vault\\ember-vault\\data\\vault"}}
+{"timestamp":"2026-03-22T13:47:40.370Z","level":"info","message":"KOGRAPH.INT interaction registered","meta":{"source":"127.0.0.1","matchedTag":"upload","suspicious":false,"excerpt":"Cara upload file?"}}
+{"timestamp":"2026-03-22T13:47:51.279Z","level":"info","message":"KOGRAPH.INT interaction registered","meta":{"source":"127.0.0.1","matchedTag":"network","suspicious":false,"excerpt":"Bagaimana akses dari device lain?"}}
+{"timestamp":"2026-03-22T13:48:36.238Z","level":"info","message":"Kograph.INT sentinel online - 24/7 watch active","meta":{"mode":"local-cmd","watchedPath":"D:\\Downloads\\ember-vault\\ember-vault\\data\\vault"}}
+{"timestamp":"2026-03-22T13:49:51.548Z","level":"info","message":"Kograph.INT sentinel online - 24/7 watch active","meta":{"mode":"local-cmd","watchedPath":"D:\\Downloads\\ember-vault\\ember-vault\\data\\vault"}}
+{"timestamp":"2026-03-22T13:50:51.233Z","level":"info","message":"Kograph.INT sentinel online - 24/7 watch active","meta":{"mode":"local-cmd","watchedPath":"D:\\Downloads\\ember-vault\\ember-vault\\data\\vault"}}
+{"timestamp":"2026-03-22T13:51:51.553Z","level":"info","message":"Kograph.INT sentinel online - 24/7 watch active","meta":{"mode":"local-cmd","watchedPath":"D:\\Downloads\\ember-vault\\ember-vault\\data\\vault"}}
+{"timestamp":"2026-03-22T13:52:51.236Z","level":"info","message":"Kograph.INT sentinel online - 24/7 watch active","meta":{"mode":"local-cmd","watchedPath":"D:\\Downloads\\ember-vault\\ember-vault\\data\\vault"}}
+{"timestamp":"2026-03-22T13:53:51.550Z","level":"info","message":"Kograph.INT sentinel online - 24/7 watch active","meta":{"mode":"local-cmd","watchedPath":"D:\\Downloads\\ember-vault\\ember-vault\\data\\vault"}}
+{"timestamp":"2026-03-22T13:54:51.227Z","level":"info","message":"Kograph.INT sentinel online - 24/7 watch active","meta":{"mode":"local-cmd","watchedPath":"D:\\Downloads\\ember-vault\\ember-vault\\data\\vault"}}
+{"timestamp":"2026-03-22T13:56:25.360Z","level":"info","message":"Kograph.INT sentinel online - 24/7 watch active","meta":{"mode":"local-cmd","watchedPath":"D:\\Downloads\\ember-vault\\ember-vault\\data\\vault"}}
+{"timestamp":"2026-03-22T13:56:50.778Z","level":"info","message":"KOGRAPH.INT interaction registered","meta":{"source":"127.0.0.1","matchedTag":"status","suspicious":false,"excerpt":"Status kamu?"}}
+{"timestamp":"2026-03-22T13:57:03.113Z","level":"info","message":"KOGRAPH.INT interaction registered","meta":{"source":"127.0.0.1","matchedTag":"developer","suspicious":false,"excerpt":"siapa yang membuat kamu"}}
+{"timestamp":"2026-03-22T13:57:14.017Z","level":"info","message":"KOGRAPH.INT interaction registered","meta":{"source":"127.0.0.1","matchedTag":"greeting","suspicious":false,"excerpt":"fizzxdev itu siapa"}}
+{"timestamp":"2026-03-22T13:57:19.890Z","level":"info","message":"KOGRAPH.INT interaction registered","meta":{"source":"127.0.0.1","matchedTag":"attempts","suspicious":false,"excerpt":"Apa yang terjadi jika key salah 5 kali?"}}
+{"timestamp":"2026-03-22T13:57:22.887Z","level":"info","message":"Kograph.INT sentinel online - 24/7 watch active","meta":{"mode":"local-cmd","watchedPath":"D:\\Downloads\\ember-vault\\ember-vault\\data\\vault"}}
+{"timestamp":"2026-03-22T13:57:33.530Z","level":"critical","message":"Vault contents wiped after burn protocol","meta":{"deletedFiles":0}}
+{"timestamp":"2026-03-22T13:57:39.006Z","level":"critical","message":"Vault contents wiped after burn protocol","meta":{"deletedFiles":0}}
+{"timestamp":"2026-03-22T13:58:19.191Z","level":"info","message":"Kograph.INT sentinel online - 24/7 watch active","meta":{"mode":"local-cmd","watchedPath":"D:\\Downloads\\ember-vault\\ember-vault\\data\\vault"}}
+{"timestamp":"2026-03-22T13:59:14.883Z","level":"info","message":"Kograph.INT sentinel online - 24/7 watch active","meta":{"mode":"local-cmd","watchedPath":"D:\\Downloads\\ember-vault\\ember-vault\\data\\vault"}}
+{"timestamp":"2026-03-22T13:59:54.413Z","level":"critical","message":"Vault contents wiped after burn protocol","meta":{"deletedFiles":0}}
+{"timestamp":"2026-03-22T14:00:11.199Z","level":"info","message":"Kograph.INT sentinel online - 24/7 watch active","meta":{"mode":"local-cmd","watchedPath":"D:\\Downloads\\ember-vault\\ember-vault\\data\\vault"}}
+{"timestamp":"2026-03-22T14:00:42.734Z","level":"critical","message":"Vault contents wiped after burn protocol","meta":{"deletedFiles":0}}
+{"timestamp":"2026-03-22T14:01:11.554Z","level":"info","message":"Kograph.INT sentinel online - 24/7 watch active","meta":{"mode":"local-cmd","watchedPath":"D:\\Downloads\\ember-vault\\ember-vault\\data\\vault"}}
+{"timestamp":"2026-03-22T14:02:51.234Z","level":"info","message":"Kograph.INT sentinel online - 24/7 watch active","meta":{"mode":"local-cmd","watchedPath":"D:\\Downloads\\ember-vault\\ember-vault\\data\\vault"}}
+{"timestamp":"2026-03-22T14:03:51.550Z","level":"info","message":"Kograph.INT sentinel online - 24/7 watch active","meta":{"mode":"local-cmd","watchedPath":"D:\\Downloads\\ember-vault\\ember-vault\\data\\vault"}}
+{"timestamp":"2026-03-22T14:04:51.235Z","level":"info","message":"Kograph.INT sentinel online - 24/7 watch active","meta":{"mode":"local-cmd","watchedPath":"D:\\Downloads\\ember-vault\\ember-vault\\data\\vault"}}
+{"timestamp":"2026-03-22T14:05:51.549Z","level":"info","message":"Kograph.INT sentinel online - 24/7 watch active","meta":{"mode":"local-cmd","watchedPath":"D:\\Downloads\\ember-vault\\ember-vault\\data\\vault"}}
+{"timestamp":"2026-03-22T14:06:51.248Z","level":"info","message":"Kograph.INT sentinel online - 24/7 watch active","meta":{"mode":"local-cmd","watchedPath":"D:\\Downloads\\ember-vault\\ember-vault\\data\\vault"}}
+{"timestamp":"2026-03-22T14:07:51.550Z","level":"info","message":"Kograph.INT sentinel online - 24/7 watch active","meta":{"mode":"local-cmd","watchedPath":"D:\\Downloads\\ember-vault\\ember-vault\\data\\vault"}}
+{"timestamp":"2026-03-22T14:08:51.232Z","level":"info","message":"Kograph.INT sentinel online - 24/7 watch active","meta":{"mode":"local-cmd","watchedPath":"D:\\Downloads\\ember-vault\\ember-vault\\data\\vault"}}
+{"timestamp":"2026-03-22T14:09:51.539Z","level":"info","message":"Kograph.INT sentinel online - 24/7 watch active","meta":{"mode":"local-cmd","watchedPath":"D:\\Downloads\\ember-vault\\ember-vault\\data\\vault"}}
+{"timestamp":"2026-03-22T14:10:51.239Z","level":"info","message":"Kograph.INT sentinel online - 24/7 watch active","meta":{"mode":"local-cmd","watchedPath":"D:\\Downloads\\ember-vault\\ember-vault\\data\\vault"}}
+{"timestamp":"2026-03-22T14:11:51.550Z","level":"info","message":"Kograph.INT sentinel online - 24/7 watch active","meta":{"mode":"local-cmd","watchedPath":"D:\\Downloads\\ember-vault\\ember-vault\\data\\vault"}}
+{"timestamp":"2026-03-22T14:12:51.238Z","level":"info","message":"Kograph.INT sentinel online - 24/7 watch active","meta":{"mode":"local-cmd","watchedPath":"D:\\Downloads\\ember-vault\\ember-vault\\data\\vault"}}
