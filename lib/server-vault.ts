@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { del, head, list, put } from "@vercel/blob";
+import { del, head, put } from "@vercel/blob";
 
 export type StoredVaultFile = {
   id: string;
@@ -89,7 +89,7 @@ async function writeBlobIndex(index: VaultIndex) {
   try {
     await del(getBlobIndexPath());
   } catch {
-    // ignore if not found
+    // ignore
   }
 
   await put(getBlobIndexPath(), JSON.stringify(index, null, 2), {
@@ -125,7 +125,8 @@ async function upsertIndexRecord(record: StoredVaultFile) {
   }
 
   await ensureLocalVaultDir();
-  const index = (await readLocalJson<VaultIndex>(LOCAL_INDEX_PATH)) ?? { files: [] };
+  const index =
+    (await readLocalJson<VaultIndex>(LOCAL_INDEX_PATH)) ?? { files: [] };
 
   const next: VaultIndexRecord = {
     id: record.id,
@@ -156,7 +157,8 @@ async function removeIndexRecord(id: string) {
   }
 
   await ensureLocalVaultDir();
-  const index = (await readLocalJson<VaultIndex>(LOCAL_INDEX_PATH)) ?? { files: [] };
+  const index =
+    (await readLocalJson<VaultIndex>(LOCAL_INDEX_PATH)) ?? { files: [] };
   index.files = index.files.filter((item) => item.id !== id);
   await writeLocalJson(LOCAL_INDEX_PATH, index);
 }
@@ -170,7 +172,7 @@ export async function writeStoredFile(record: StoredVaultFile) {
     try {
       await del(getBlobPath(record.id));
     } catch {
-      // ignore if blob doesn't exist yet
+      // ignore
     }
 
     await put(getBlobPath(record.id), JSON.stringify(record), {
@@ -220,7 +222,8 @@ export async function listStoredFiles(): Promise<VaultIndexRecord[]> {
   }
 
   await ensureLocalVaultDir();
-  const index = (await readLocalJson<VaultIndex>(LOCAL_INDEX_PATH)) ?? { files: [] };
+  const index =
+    (await readLocalJson<VaultIndex>(LOCAL_INDEX_PATH)) ?? { files: [] };
 
   return [...index.files].sort(
     (a, b) =>
