@@ -252,11 +252,14 @@ export default function Page() {
             body: JSON.stringify({ id })
           });
 
+          const patchJson = await patch.json().catch(() => null);
+
           if (!patch.ok) {
-            throw new Error(`Failed to increment attempts for ${id}`);
+            throw new Error(
+              patchJson?.error || `Failed to increment attempts for ${id}`
+            );
           }
 
-          const patchJson = await patch.json();
           const attempts = patchJson.attempts ?? 1;
 
           if (attempts >= 5) {

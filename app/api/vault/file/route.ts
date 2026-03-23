@@ -10,21 +10,21 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const id = searchParams.get("id");
 
-    if (!id) {
-      return NextResponse.json({ error: "missing_id" }, { status: 400 });
+    if (!id || typeof id !== "string") {
+      return NextResponse.json({ ok: false, error: "missing_id" }, { status: 400 });
     }
 
     const record = await readStoredFile(id);
 
     if (!record) {
-      return NextResponse.json({ error: "file_not_found" }, { status: 404 });
+      return NextResponse.json({ ok: false, error: "file_not_found" }, { status: 404 });
     }
 
     return NextResponse.json({
       ok: true,
       file: {
         ...(record.payload as Record<string, unknown>),
-        attempts: record.attempts ?? 0
+        attempts: Number(record.attempts ?? 0)
       }
     });
   } catch (error) {
@@ -79,9 +79,7 @@ export async function PUT(request: Request) {
 
     await resetAttempts(id);
 
-    return NextResponse.json({
-      ok: true
-    });
+    return NextResponse.json({ ok: true });
   } catch (error) {
     console.error("vault file PUT error:", error);
 
