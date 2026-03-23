@@ -1,28 +1,36 @@
+import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
 import { writeStoredFile } from "../../../../lib/server-vault";
-import crypto from "crypto";
 
-export async function POST(req: Request) {
+export async function POST(request: Request) {
   try {
-    const body = await req.json();
-    const id = crypto.randomUUID();
-    await writeStoredFile({
+    const body = await request.json();
+
+    const id = randomUUID();
+    const now = new Date().toISOString();
+
+    const record = {
       id,
-      originalNameEnc: body.originalNameEnc,
-      fileExt: body.fileExt,
-      mimeType: body.mimeType,
-      cipherText: body.cipherText,
-      salt: body.salt,
-      contentIv: body.contentIv,
-      nameIv: body.nameIv,
-      createdAt: new Date().toISOString(),
+      createdAt: now,
       size: body.size ?? 0,
-      attempts: 0
+      fileExt: body.fileExt ?? "bin",
+      mimeType: body.mimeType ?? "application/octet-stream",
+      attempts: 0,
+      payload: body
+    };
+
+    await writeStoredFile(record);
+
+    return NextResponse.json({
+      ok: true,
+      id
     });
-    console.log(`[VAULT] stored encrypted file ${id}`);
-    return NextResponse.json({ ok: true, id });
   } catch (error) {
-    console.error("[VAULT] upload failed", error);
-    return NextResponse.json({ ok: false }, { status: 500 });
+    console.error("vault upload error:", error);
+
+    return NextResponse.json(
+      { ok: false, error: "upload_failed" },
+      { status: 500 }
+    );
   }
 }

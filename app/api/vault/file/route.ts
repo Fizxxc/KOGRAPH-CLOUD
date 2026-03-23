@@ -1,24 +1,67 @@
 import { NextResponse } from "next/server";
-import { readStoredFile, writeStoredFile } from "../../../../lib/server-vault";
+import {
+  incrementAttempts,
+  readStoredFile,
+  resetAttempts
+} from "../../../../lib/server-vault";
 
-export async function GET(req: Request) {
-  const { searchParams } = new URL(req.url);
-  const id = searchParams.get("id");
-  if (!id) return NextResponse.json({ ok: false }, { status: 400 });
+export async function GET(request: Request) {
+  try {
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get("id");
 
-  const file = await readStoredFile(id);
-  if (!file) return NextResponse.json({ ok: false }, { status: 404 });
+    if (!id) {
+      return NextResponse.json({ error: "missing_id" }, { status: 400 });
+    }
 
-  return NextResponse.json({ ok: true, file });
+    const record = await readStoredFile(id);
+
+    if (!record) {
+      return NextResponse.json({ error: "not_found" }, { status: 404 });
+    }
+
+    return NextResponse.json({
+      file: {
+        ...(record.payload as object),
+        attempts: record.attempts
+      }
+    });
+  } catch (error) {
+    console.error("vault file GET error:", error);
+    return NextResponse.json({ error: "read_failed" }, { status: 500 });
+  }
 }
 
-export async function PATCH(req: Request) {
-  const body = await req.json();
-  const id = body.id as string;
-  const file = await readStoredFile(id);
-  if (!file) return NextResponse.json({ ok: false }, { status: 404 });
+export async function PATCH(request: Request) {
+  try {
+    const body = await request.json();
+    const id = body?.id;
 
-  file.attempts = typeof body.attempts === "number" ? body.attempts : file.attempts + 1;
-  await writeStoredFile(file);
-  return NextResponse.json({ ok: true, attempts: file.attempts });
+    if (!id) {
+      return NextResponse.json({ error: "missing_id" }, { status: 400 });
+    }
+
+    const attempts = await incrementAttempts(id);
+    return NextResponse.json({ ok: true, attempts });
+  } catch (error) {
+    console.error("vault file PATCH error:", error);
+    return NextResponse.json({ error: "attempt_failed" }, { status: 500 });
+  }
+}
+
+export async function PUT(request: Request) {
+  try {
+    const body = await request.json();
+    const id = body?.id;
+
+    if (!id) {
+      return NextResponse.json({ error: "missing_id" }, { status: 400 });
+    }
+
+    await resetAttempts(id);
+    return NextResponse.json({ ok: true });
+  } catch (error) {
+    console.error("vault file PUT error:", error);
+    return NextResponse.json({ error: "reset_failed" }, { status: 500 });
+  }
 }

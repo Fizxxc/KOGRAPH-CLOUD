@@ -1,57 +1,155 @@
-import { promises as fs } from "fs";
-import path from "path";
+import fs from "node:fs/promises";
+import path from "node:path";
+import { put, list, del, head, get } from "@vercel/blob";
 
 export type StoredVaultFile = {
   id: string;
-  originalNameEnc: string;
-  fileExt: string;
-  mimeType: string;
-  cipherText: string;
-  salt: string;
-  contentIv: string;
-  nameIv: string;
   createdAt: string;
   size: number;
+  fileExt: string;
+  mimeType: string;
   attempts: number;
+  payload: unknown;
 };
 
-const vaultDir = path.join(process.cwd(), "data", "vault");
+const LOCAL_DIR = path.join(process.cwd(), "data", "vault");
 
-async function ensureVaultDir() {
-  await fs.mkdir(vaultDir, { recursive: true });
+function isVercelRuntime() {
+  return !!process.env.VERCEL;
 }
 
-export async function listStoredFiles(): Promise<StoredVaultFile[]> {
-  await ensureVaultDir();
-  const files = await fs.readdir(vaultDir);
-  const result: StoredVaultFile[] = [];
-  for (const file of files) {
-    if (!file.endsWith(".json")) continue;
-    const raw = await fs.readFile(path.join(vaultDir, file), "utf8");
-    result.push(JSON.parse(raw) as StoredVaultFile);
+function getBlobPath(id: string) {
+  return `vault/${id}.json`;
+}
+
+function getLocalPath(id: string) {
+  return path.join(LOCAL_DIR, `${id}.json`);
+}
+
+export async function ensureLocalVaultDir() {
+  await fs.mkdir(LOCAL_DIR, { recursive: true });
+}
+
+export async function writeStoredFile(record: StoredVaultFile) {
+  if (isVercelRuntime()) {
+    await put(getBlobPath(record.id), JSON.stringify(record), {
+      access: "private",
+      contentType: "application/json",
+      addRandomSuffix: false
+    });
+    return;
   }
-  return result.sort((a, b) => +new Date(b.createdAt) - +new Date(a.createdAt));
+
+  await ensureLocalVaultDir();
+  await fs.writeFile(
+    getLocalPath(record.id),
+    JSON.stringify(record, null, 2),
+    "utf8"
+  );
 }
 
-export async function readStoredFile(id: string): Promise<StoredVaultFile | null> {
-  await ensureVaultDir();
-  const filePath = path.join(vaultDir, `${id}.json`);
+export async function readStoredFile(
+  id: string
+): Promise<StoredVaultFile | null> {
+  if (isVercelRuntime()) {
+    try {
+      await head(getBlobPath(id));
+
+      const blobResult = await get(getBlobPath(id), {
+        access: "private"
+      });
+
+      if (!blobResult || blobResult.statusCode !== 200 || !blobResult.stream) {
+        return null;
+      }
+
+      const text = await new Response(blobResult.stream).text();
+      return JSON.parse(text) as StoredVaultFile;
+    } catch {
+      return null;
+    }
+  }
+
   try {
-    const raw = await fs.readFile(filePath, "utf8");
+    const raw = await fs.readFile(getLocalPath(id), "utf8");
     return JSON.parse(raw) as StoredVaultFile;
   } catch {
     return null;
   }
 }
 
-export async function writeStoredFile(file: StoredVaultFile) {
-  await ensureVaultDir();
-  const filePath = path.join(vaultDir, `${file.id}.json`);
-  await fs.writeFile(filePath, JSON.stringify(file, null, 2), "utf8");
+export async function listStoredFiles(): Promise<StoredVaultFile[]> {
+  if (isVercelRuntime()) {
+    const result = await list({ prefix: "vault/" });
+
+    const files = await Promise.all(
+      result.blobs.map(async (item) => {
+        const blobResult = await get(item.pathname, {
+          access: "private"
+        });
+
+        if (!blobResult || blobResult.statusCode !== 200 || !blobResult.stream) {
+          throw new Error(`Blob not found: ${item.pathname}`);
+        }
+
+        const text = await new Response(blobResult.stream).text();
+        return JSON.parse(text) as StoredVaultFile;
+      })
+    );
+
+    return files.sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
+  }
+
+  await ensureLocalVaultDir();
+  const names = await fs.readdir(LOCAL_DIR);
+
+  const items = await Promise.all(
+    names
+      .filter((name) => name.endsWith(".json"))
+      .map(async (name) => {
+        const raw = await fs.readFile(path.join(LOCAL_DIR, name), "utf8");
+        return JSON.parse(raw) as StoredVaultFile;
+      })
+  );
+
+  return items.sort(
+    (a, b) =>
+      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  );
 }
 
 export async function deleteStoredFile(id: string) {
-  await ensureVaultDir();
-  const filePath = path.join(vaultDir, `${id}.json`);
-  await fs.rm(filePath, { force: true });
+  if (isVercelRuntime()) {
+    await del(getBlobPath(id));
+    return;
+  }
+
+  try {
+    await fs.unlink(getLocalPath(id));
+  } catch {
+    // ignore
+  }
+}
+
+export async function incrementAttempts(id: string): Promise<number> {
+  const record = await readStoredFile(id);
+
+  if (!record) {
+    throw new Error("File not found");
+  }
+
+  record.attempts += 1;
+  await writeStoredFile(record);
+  return record.attempts;
+}
+
+export async function resetAttempts(id: string): Promise<void> {
+  const record = await readStoredFile(id);
+  if (!record) return;
+
+  record.attempts = 0;
+  await writeStoredFile(record);
 }

@@ -1,15 +1,20 @@
 import { NextResponse } from "next/server";
 import { deleteStoredFile } from "../../../../lib/server-vault";
 
-export async function POST(req: Request) {
+export async function POST(request: Request) {
   try {
-    const body = await req.json();
-    const id = body.id as string;
+    const body = await request.json();
+    const id = body?.id;
+
+    if (!id) {
+      return NextResponse.json({ error: "missing_id" }, { status: 400 });
+    }
+
     await deleteStoredFile(id);
-    console.log(`[VAULT] burn protocol removed ${id}`);
+
     return NextResponse.json({ ok: true });
   } catch (error) {
-    console.error("[VAULT] burn failed", error);
-    return NextResponse.json({ ok: false }, { status: 500 });
+    console.error("vault burn error:", error);
+    return NextResponse.json({ error: "burn_failed" }, { status: 500 });
   }
 }
