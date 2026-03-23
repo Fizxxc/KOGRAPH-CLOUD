@@ -149,15 +149,18 @@ export async function incrementAttempts(id: string): Promise<number> {
     throw new Error("file_not_found");
   }
 
-  record.attempts = (record.attempts ?? 0) + 1;
+  record.attempts = Number(record.attempts ?? 0) + 1;
   await writeStoredFile(record);
 
   return record.attempts;
 }
 
-export async function resetAttempts(id: string) {
+export async function resetAttempts(id: string): Promise<void> {
   const record = await readStoredFile(id);
-  if (!record) return;
+
+  if (!record) {
+    throw new Error("file_not_found");
+  }
 
   record.attempts = 0;
   await writeStoredFile(record);

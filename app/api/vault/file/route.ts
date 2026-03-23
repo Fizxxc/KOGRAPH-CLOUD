@@ -17,13 +17,14 @@ export async function GET(request: Request) {
     const record = await readStoredFile(id);
 
     if (!record) {
-      return NextResponse.json({ error: "not_found" }, { status: 404 });
+      return NextResponse.json({ error: "file_not_found" }, { status: 404 });
     }
 
     return NextResponse.json({
+      ok: true,
       file: {
-        ...(record.payload as object),
-        attempts: record.attempts
+        ...(record.payload as Record<string, unknown>),
+        attempts: record.attempts ?? 0
       }
     });
   } catch (error) {
@@ -31,6 +32,7 @@ export async function GET(request: Request) {
 
     return NextResponse.json(
       {
+        ok: false,
         error: error instanceof Error ? error.message : "read_failed"
       },
       { status: 500 }
@@ -43,8 +45,8 @@ export async function PATCH(request: Request) {
     const body = await request.json();
     const id = body?.id;
 
-    if (!id) {
-      return NextResponse.json({ error: "missing_id" }, { status: 400 });
+    if (!id || typeof id !== "string") {
+      return NextResponse.json({ ok: false, error: "missing_id" }, { status: 400 });
     }
 
     const attempts = await incrementAttempts(id);
@@ -58,6 +60,7 @@ export async function PATCH(request: Request) {
 
     return NextResponse.json(
       {
+        ok: false,
         error: error instanceof Error ? error.message : "attempt_failed"
       },
       { status: 500 }
@@ -70,18 +73,21 @@ export async function PUT(request: Request) {
     const body = await request.json();
     const id = body?.id;
 
-    if (!id) {
-      return NextResponse.json({ error: "missing_id" }, { status: 400 });
+    if (!id || typeof id !== "string") {
+      return NextResponse.json({ ok: false, error: "missing_id" }, { status: 400 });
     }
 
     await resetAttempts(id);
 
-    return NextResponse.json({ ok: true });
+    return NextResponse.json({
+      ok: true
+    });
   } catch (error) {
     console.error("vault file PUT error:", error);
 
     return NextResponse.json(
       {
+        ok: false,
         error: error instanceof Error ? error.message : "reset_failed"
       },
       { status: 500 }
