@@ -22,6 +22,7 @@ export async function GET() {
     return NextResponse.json(
       {
         ok: false,
+        files: [],
         error: error instanceof Error ? error.message : "list_failed"
       },
       { status: 500 }

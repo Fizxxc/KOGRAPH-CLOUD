@@ -9,7 +9,7 @@
     "dev:lan": "next dev --hostname 0.0.0.0"
   },
   "dependencies": {
-    "@vercel/blob": "^2.3.1",
+    "@vercel/blob": "^0.27.0",
     "framer-motion": "^11.18.2",
     "next": "15.5.7",
     "react": "19.1.2",

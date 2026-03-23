@@ -11,13 +11,19 @@ export async function GET(request: Request) {
     const id = searchParams.get("id");
 
     if (!id || typeof id !== "string") {
-      return NextResponse.json({ ok: false, error: "missing_id" }, { status: 400 });
+      return NextResponse.json(
+        { ok: false, error: "missing_id" },
+        { status: 400 }
+      );
     }
 
     const record = await readStoredFile(id);
 
     if (!record) {
-      return NextResponse.json({ ok: false, error: "file_not_found" }, { status: 404 });
+      return NextResponse.json(
+        { ok: false, error: "file_not_found" },
+        { status: 404 }
+      );
     }
 
     return NextResponse.json({
@@ -46,7 +52,10 @@ export async function PATCH(request: Request) {
     const id = body?.id;
 
     if (!id || typeof id !== "string") {
-      return NextResponse.json({ ok: false, error: "missing_id" }, { status: 400 });
+      return NextResponse.json(
+        { ok: false, error: "missing_id" },
+        { status: 400 }
+      );
     }
 
     const attempts = await incrementAttempts(id);
@@ -74,7 +83,10 @@ export async function PUT(request: Request) {
     const id = body?.id;
 
     if (!id || typeof id !== "string") {
-      return NextResponse.json({ ok: false, error: "missing_id" }, { status: 400 });
+      return NextResponse.json(
+        { ok: false, error: "missing_id" },
+        { status: 400 }
+      );
     }
 
     await resetAttempts(id);

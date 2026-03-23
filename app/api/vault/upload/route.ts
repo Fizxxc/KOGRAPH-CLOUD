@@ -6,7 +6,14 @@ export async function POST(request: Request) {
   try {
     const body = await request.json();
 
-    if (!body?.encryptedData || !body?.salt || !body?.contentIv || !body?.nameIv) {
+    if (
+      !body ||
+      !body.encryptedData ||
+      !body.nameData ||
+      !body.salt ||
+      !body.contentIv ||
+      !body.nameIv
+    ) {
       return NextResponse.json(
         { ok: false, error: "invalid_payload" },
         { status: 400 }
@@ -25,7 +32,10 @@ export async function POST(request: Request) {
       payload: body
     });
 
-    return NextResponse.json({ ok: true, id });
+    return NextResponse.json({
+      ok: true,
+      id
+    });
   } catch (error) {
     console.error("vault upload error:", error);
 

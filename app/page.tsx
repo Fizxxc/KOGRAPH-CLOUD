@@ -91,12 +91,16 @@ export default function Page() {
         throw new Error(json?.error || `Failed to load vault: ${res.status}`);
       }
 
-      setVault(Array.isArray(json?.files) ? json.files : []);
+      if (mountedRef.current) {
+        setVault(Array.isArray(json?.files) ? json.files : []);
+      }
     } catch (error) {
       console.error(error);
 
       if (mountedRef.current) {
-        setStatus("Gagal memuat vault.");
+        setStatus(
+          error instanceof Error ? error.message : "Gagal memuat vault."
+        );
       }
     }
   }, []);
@@ -169,7 +173,9 @@ export default function Page() {
         console.error(error);
 
         if (mountedRef.current) {
-          setStatus("Upload gagal.");
+          setStatus(
+            error instanceof Error ? error.message : "Upload gagal."
+          );
         }
 
         await writeLog("warn", "file_encrypt_upload_failed", "Upload failed", {
@@ -200,11 +206,12 @@ export default function Page() {
           cache: "no-store"
         });
 
+        const json = await res.json().catch(() => null);
+
         if (!res.ok) {
-          throw new Error(`Failed to fetch file ${id}`);
+          throw new Error(json?.error || `Failed to fetch file ${id}`);
         }
 
-        const json = await res.json();
         const payload = json.file as EncryptedPayload & { attempts: number };
 
         if (
@@ -238,10 +245,13 @@ export default function Page() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ id })
         });
+
         await writeLog("info", "file_decrypted", `Decrypted file ${id}`, {
           id,
           fileName
         });
+
+        await loadVault();
       } catch (error) {
         console.error("decrypt failed:", error);
 
@@ -260,7 +270,7 @@ export default function Page() {
             );
           }
 
-          const attempts = patchJson.attempts ?? 1;
+          const attempts = patchJson?.attempts ?? 1;
 
           if (attempts >= 5) {
             if (mountedRef.current) {
@@ -322,7 +332,11 @@ export default function Page() {
           console.error("attempt tracking failed:", attemptError);
 
           if (mountedRef.current) {
-            setStatus("Decrypt gagal.");
+            setStatus(
+              attemptError instanceof Error
+                ? `Gagal update attempts: ${attemptError.message}`
+                : "Gagal update attempts."
+            );
           }
         }
       } finally {
@@ -352,7 +366,8 @@ export default function Page() {
           <div className="eyebrow">LOCAL ENCRYPTED CLOUD</div>
           <h1>KOGRAPH CLOUD</h1>
           <p>
-            Vault terenkripsi dengan burn protocol, human verification, dan perlindungan oleh
+            Vault terenkripsi dengan burn protocol, human verification, dan
+            perlindungan oleh
             <span className="text-cyan-300 font-semibold"> KOGRAPH.INT</span>.
           </p>
         </div>
@@ -455,8 +470,7 @@ export default function Page() {
                   <strong>Encrypted .{item.fileExt}</strong>
                   <span>{new Date(item.createdAt).toLocaleString("id-ID")}</span>
                   <small>
-                    {Math.round(item.size / 1024)} KB • attempts {item.attempts}
-                    /5
+                    {Math.round(item.size / 1024)} KB • attempts {item.attempts}/5
                   </small>
                 </div>
 
