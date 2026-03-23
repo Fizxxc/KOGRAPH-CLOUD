@@ -15,7 +15,7 @@ export type StoredVaultFile = {
 const LOCAL_DIR = path.join(process.cwd(), "data", "vault");
 
 function isVercelRuntime() {
-  return !!process.env.VERCEL;
+  return Boolean(process.env.VERCEL);
 }
 
 function getBlobPath(id: string) {
@@ -26,47 +26,47 @@ function getLocalPath(id: string) {
   return path.join(LOCAL_DIR, `${id}.json`);
 }
 
-export async function ensureLocalVaultDir() {
+async function ensureLocalVaultDir() {
   await fs.mkdir(LOCAL_DIR, { recursive: true });
 }
 
 export async function writeStoredFile(record: StoredVaultFile) {
   if (isVercelRuntime()) {
+    if (!process.env.BLOB_READ_WRITE_TOKEN) {
+      throw new Error("missing_blob_token");
+    }
+
     await put(getBlobPath(record.id), JSON.stringify(record), {
       access: "private",
       contentType: "application/json",
       addRandomSuffix: false
     });
+
     return;
   }
 
   await ensureLocalVaultDir();
-  await fs.writeFile(
-    getLocalPath(record.id),
-    JSON.stringify(record, null, 2),
-    "utf8"
-  );
+  await fs.writeFile(getLocalPath(record.id), JSON.stringify(record), "utf8");
 }
 
-export async function readStoredFile(
-  id: string
-): Promise<StoredVaultFile | null> {
+export async function readStoredFile(id: string): Promise<StoredVaultFile | null> {
   if (isVercelRuntime()) {
     try {
       await head(getBlobPath(id));
 
-      const blobResult = await get(getBlobPath(id), {
+      const result = await get(getBlobPath(id), {
         access: "private"
       });
 
-      if (!blobResult || blobResult.statusCode !== 200 || !blobResult.stream) {
-        return null;
-      }
+      if (!result) return null;
+      if (result.statusCode !== 200) return null;
+      if (!result.stream) return null;
 
-      const text = await new Response(blobResult.stream).text();
+      const text = await new Response(result.stream).text();
       return JSON.parse(text) as StoredVaultFile;
-    } catch {
-      return null;
+    } catch (error) {
+      console.error("readStoredFile error:", error);
+      throw error;
     }
   }
 
@@ -80,6 +80,10 @@ export async function readStoredFile(
 
 export async function listStoredFiles(): Promise<StoredVaultFile[]> {
   if (isVercelRuntime()) {
+    if (!process.env.BLOB_READ_WRITE_TOKEN) {
+      throw new Error("missing_blob_token");
+    }
+
     const result = await list({ prefix: "vault/" });
 
     const files = await Promise.all(
@@ -88,8 +92,12 @@ export async function listStoredFiles(): Promise<StoredVaultFile[]> {
           access: "private"
         });
 
-        if (!blobResult || blobResult.statusCode !== 200 || !blobResult.stream) {
-          throw new Error(`Blob not found: ${item.pathname}`);
+        if (!blobResult) {
+          throw new Error(`blob_not_found:${item.pathname}`);
+        }
+
+        if (blobResult.statusCode !== 200 || !blobResult.stream) {
+          throw new Error(`blob_read_failed:${item.pathname}:${blobResult.statusCode}`);
         }
 
         const text = await new Response(blobResult.stream).text();
@@ -118,7 +126,7 @@ export async function listStoredFiles(): Promise<StoredVaultFile[]> {
   return items.sort(
     (a, b) =>
       new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-  );
+    );
 }
 
 export async function deleteStoredFile(id: string) {
@@ -138,7 +146,7 @@ export async function incrementAttempts(id: string): Promise<number> {
   const record = await readStoredFile(id);
 
   if (!record) {
-    throw new Error("File not found");
+    throw new Error("file_not_found");
   }
 
   record.attempts += 1;
@@ -146,7 +154,7 @@ export async function incrementAttempts(id: string): Promise<number> {
   return record.attempts;
 }
 
-export async function resetAttempts(id: string): Promise<void> {
+export async function resetAttempts(id: string) {
   const record = await readStoredFile(id);
   if (!record) return;
 

@@ -85,15 +85,13 @@ export default function Page() {
         cache: "no-store"
       });
 
+      const json = await res.json().catch(() => null);
+
       if (!res.ok) {
-        throw new Error(`Failed to load vault: ${res.status}`);
+        throw new Error(json?.error || `Failed to load vault: ${res.status}`);
       }
 
-      const json = await res.json();
-
-      if (mountedRef.current) {
-        setVault(Array.isArray(json.files) ? json.files : []);
-      }
+      setVault(Array.isArray(json?.files) ? json.files : []);
     } catch (error) {
       console.error(error);
 
@@ -149,8 +147,10 @@ export default function Page() {
             body: JSON.stringify(payload)
           });
 
+          const uploadJson = await uploadRes.json().catch(() => null);
+
           if (!uploadRes.ok) {
-            throw new Error(`Upload failed for ${file.name}`);
+            throw new Error(uploadJson?.error || `Upload failed for ${file.name}`);
           }
 
           await writeLog("info", "file_encrypted", "Encrypted file stored", {

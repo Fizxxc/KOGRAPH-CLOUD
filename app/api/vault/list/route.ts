@@ -6,6 +6,7 @@ export async function GET() {
     const files = await listStoredFiles();
 
     return NextResponse.json({
+      ok: true,
       files: files.map((item) => ({
         id: item.id,
         createdAt: item.createdAt,
@@ -19,7 +20,10 @@ export async function GET() {
     console.error("vault list error:", error);
 
     return NextResponse.json(
-      { files: [], error: "list_failed" },
+      {
+        ok: false,
+        error: error instanceof Error ? error.message : "list_failed"
+      },
       { status: 500 }
     );
   }
