@@ -28,7 +28,13 @@ export async function GET(request: Request) {
     });
   } catch (error) {
     console.error("vault file GET error:", error);
-    return NextResponse.json({ error: "read_failed" }, { status: 500 });
+
+    return NextResponse.json(
+      {
+        error: error instanceof Error ? error.message : "read_failed"
+      },
+      { status: 500 }
+    );
   }
 }
 
@@ -42,10 +48,20 @@ export async function PATCH(request: Request) {
     }
 
     const attempts = await incrementAttempts(id);
-    return NextResponse.json({ ok: true, attempts });
+
+    return NextResponse.json({
+      ok: true,
+      attempts
+    });
   } catch (error) {
     console.error("vault file PATCH error:", error);
-    return NextResponse.json({ error: "attempt_failed" }, { status: 500 });
+
+    return NextResponse.json(
+      {
+        error: error instanceof Error ? error.message : "attempt_failed"
+      },
+      { status: 500 }
+    );
   }
 }
 
@@ -59,9 +75,16 @@ export async function PUT(request: Request) {
     }
 
     await resetAttempts(id);
+
     return NextResponse.json({ ok: true });
   } catch (error) {
     console.error("vault file PUT error:", error);
-    return NextResponse.json({ error: "reset_failed" }, { status: 500 });
+
+    return NextResponse.json(
+      {
+        error: error instanceof Error ? error.message : "reset_failed"
+      },
+      { status: 500 }
+    );
   }
 }

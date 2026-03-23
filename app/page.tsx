@@ -207,6 +207,17 @@ export default function Page() {
         const json = await res.json();
         const payload = json.file as EncryptedPayload & { attempts: number };
 
+        if (
+          !payload ||
+          !payload.salt ||
+          !payload.contentIv ||
+          !payload.nameIv ||
+          !payload.encryptedData ||
+          !payload.nameData
+        ) {
+          throw new Error("invalid_encrypted_payload");
+        }
+
         const { fileName, blob } = await decryptPayload(payload, key);
 
         const href = URL.createObjectURL(blob);
@@ -222,6 +233,11 @@ export default function Page() {
           setStatus(`Decrypt berhasil: ${fileName}`);
         }
 
+        await fetch("/api/vault/file", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id })
+        });
         await writeLog("info", "file_decrypted", `Decrypted file ${id}`, {
           id,
           fileName

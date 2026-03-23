@@ -149,8 +149,9 @@ export async function incrementAttempts(id: string): Promise<number> {
     throw new Error("file_not_found");
   }
 
-  record.attempts += 1;
+  record.attempts = (record.attempts ?? 0) + 1;
   await writeStoredFile(record);
+
   return record.attempts;
 }
 
