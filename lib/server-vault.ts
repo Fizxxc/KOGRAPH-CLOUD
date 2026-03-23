@@ -32,6 +32,10 @@ function isVercelRuntime() {
   return Boolean(process.env.VERCEL);
 }
 
+function getBlobToken() {
+  return process.env.BLOB2_READ_WRITE_TOKEN || process.env.BLOB_READ_WRITE_TOKEN;
+}
+
 function getBlobPath(id: string) {
   return `vault/${id}.json`;
 }
@@ -73,7 +77,12 @@ async function readBlobTextByUrl(url: string): Promise<string> {
 
 async function readBlobIndex(): Promise<VaultIndex> {
   try {
-    const meta = await head(getBlobIndexPath());
+    const token = getBlobToken();
+    if (!token) {
+      throw new Error("missing_blob_token");
+    }
+
+    const meta = await head(getBlobIndexPath(), { token });
     const text = await readBlobTextByUrl(meta.url);
     const parsed = JSON.parse(text) as VaultIndex;
 
@@ -86,14 +95,20 @@ async function readBlobIndex(): Promise<VaultIndex> {
 }
 
 async function writeBlobIndex(index: VaultIndex) {
+  const token = getBlobToken();
+  if (!token) {
+    throw new Error("missing_blob_token");
+  }
+
   try {
-    await del(getBlobIndexPath());
+    await del(getBlobIndexPath(), { token });
   } catch {
     // ignore
   }
 
   await put(getBlobIndexPath(), JSON.stringify(index, null, 2), {
     access: "public",
+    token,
     contentType: "application/json",
     addRandomSuffix: false
   });
@@ -165,18 +180,20 @@ async function removeIndexRecord(id: string) {
 
 export async function writeStoredFile(record: StoredVaultFile) {
   if (isVercelRuntime()) {
-    if (!process.env.BLOB_READ_WRITE_TOKEN) {
+    const token = getBlobToken();
+    if (!token) {
       throw new Error("missing_blob_token");
     }
 
     try {
-      await del(getBlobPath(record.id));
+      await del(getBlobPath(record.id), { token });
     } catch {
       // ignore
     }
 
     await put(getBlobPath(record.id), JSON.stringify(record), {
       access: "public",
+      token,
       contentType: "application/json",
       addRandomSuffix: false
     });
@@ -195,7 +212,12 @@ export async function readStoredFile(
 ): Promise<StoredVaultFile | null> {
   if (isVercelRuntime()) {
     try {
-      const meta = await head(getBlobPath(id));
+      const token = getBlobToken();
+      if (!token) {
+        throw new Error("missing_blob_token");
+      }
+
+      const meta = await head(getBlobPath(id), { token });
       const text = await readBlobTextByUrl(meta.url);
       return JSON.parse(text) as StoredVaultFile;
     } catch (error) {
@@ -209,7 +231,7 @@ export async function readStoredFile(
 
 export async function listStoredFiles(): Promise<VaultIndexRecord[]> {
   if (isVercelRuntime()) {
-    if (!process.env.BLOB_READ_WRITE_TOKEN) {
+    if (!getBlobToken()) {
       throw new Error("missing_blob_token");
     }
 
@@ -233,8 +255,13 @@ export async function listStoredFiles(): Promise<VaultIndexRecord[]> {
 
 export async function deleteStoredFile(id: string) {
   if (isVercelRuntime()) {
+    const token = getBlobToken();
+    if (!token) {
+      throw new Error("missing_blob_token");
+    }
+
     try {
-      await del(getBlobPath(id));
+      await del(getBlobPath(id), { token });
     } catch {
       // ignore
     }

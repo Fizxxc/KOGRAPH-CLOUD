@@ -7,14 +7,7 @@ export async function GET() {
 
     return NextResponse.json({
       ok: true,
-      files: files.map((item) => ({
-        id: item.id,
-        createdAt: item.createdAt,
-        size: item.size,
-        fileExt: item.fileExt,
-        mimeType: item.mimeType,
-        attempts: item.attempts
-      }))
+      files
     });
   } catch (error) {
     console.error("vault list error:", error);
